@@ -1,0 +1,114 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  src: url("./assets/fonts/inter-300.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/inter-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./assets/fonts/inter-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  src: url("./assets/fonts/inter-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/fonts/inter-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  src: url("./assets/fonts/inter-800.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  src: url("./assets/fonts/inter-900.woff2") format("woff2");
+}
+
+@theme {
+  --font-inter: "Inter", "sans-serif";
+}
+
+.catalog-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.catalog-icon .rect {
+  background: #7d4cff;
+  border: 2px solid #7d4cff;
+  border-radius: 2px;
+  width: 18px;
+  height: 12px;
+  position: absolute;
+  top: 9.5px;
+  left: 48%;
+  transform: translate(-50%);
+  box-sizing: border-box;
+}
+
+.catalog-icon .rect .inner {
+  background-color: #ede9fe;
+  border-radius: 1px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.catalog-icon .top,
+.catalog-icon .bottom {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  height: 0;
+  border-top: 2px solid #7d4cff;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.catalog-icon .top {
+  top: 3px;
+  width: 14px;
+}
+
+.catalog-icon .bottom {
+  top: 6px;
+  width: 16px;
+  background: #7d4cff;
+}
