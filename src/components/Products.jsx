@@ -4,6 +4,7 @@ import cartPlus from "../assets/images/cartPlus.svg";
 import star1 from "../assets/images/star1.svg";
 import Like from "./Like";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function Products() {
   const [data, setData] = useState([]);
@@ -21,6 +22,10 @@ function Products() {
   const loadMore = () => {
     setVisibleCount((prev) => prev + 10);
   };
+
+  function notify() {
+    toast.success("Mahsulot savatga qo‘shildi");
+  }
 
   return (
     <>
@@ -71,7 +76,14 @@ function Products() {
                       </p>
                       <p className="text-lg font-bold">{discountPrice}</p>
                     </div>
-                    <button className="border mt-4 rounded-full flex justify-center items-center w-8 h-8 text-[#BDBEC4] transition-all hover:bg-[#dee0e5] cursor-pointer">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        notify();
+                      }}
+                      className="border mt-4 rounded-full flex justify-center items-center w-8 h-8 text-[#BDBEC4] transition-all hover:bg-[#dee0e5] cursor-pointer"
+                    >
+                      <ToastContainer />
                       <img src={cartPlus} alt="Savatchaga qo‘shish" />
                     </button>
                   </div>

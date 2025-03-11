@@ -3,7 +3,8 @@ import React, { useState } from "react";
 const Like = ({ product }) => {
   const [liked, setLiked] = useState(false);
 
-  const toggleLike = () => {
+  const toggleLike = (e) => {
+    e.preventDefault();
     setLiked(!liked);
   };
 
@@ -19,7 +20,6 @@ const Like = ({ product }) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         alt="like"
-        className="active:animate-ping active:transition-all active:duration-500 active:ease-in"
       >
         <path
           d="M5.95 2C8.51792 2 10 4.15234 10 4.15234C10 4.15234 11.485 2 14.05 2C16.705 2 19 4.07 19 6.95C19 11.1805 12.5604 15.6197 10.3651 17.5603C10.1582 17.7432 9.84179 17.7432 9.63488 17.5603C7.44056 15.6209 1 11.1803 1 6.95C1 4.07 3.295 2 5.95 2Z"
