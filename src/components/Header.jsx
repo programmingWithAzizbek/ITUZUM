@@ -193,7 +193,7 @@ function Header() {
             </div>
             <div className="flex items-center gap-x-2 h-full">
               <NavLink
-                to={"/login"}
+                to={"#login"}
                 className={
                   "flex items-center gap-x-2 px-2 rounded hover:bg-[#dee0e5] h-10"
                 }

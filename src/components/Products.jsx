@@ -3,6 +3,7 @@ import axios from "axios";
 import cartPlus from "../assets/images/cartPlus.svg";
 import star1 from "../assets/images/star1.svg";
 import Like from "./Like";
+import { NavLink } from "react-router-dom";
 
 function Products() {
   const [data, setData] = useState([]);
@@ -26,40 +27,41 @@ function Products() {
       <div className="mt-12">
         <h3 className="text-3xl font-bold mb-5">Tavsiya etamiz</h3>
         <div className="grid grid-cols-5 gap-5">
-          {data.slice(0, visibleCount).map((product) => {
-            let rating = product.rating;
+          {data.slice(0, visibleCount).map((item, index) => {
+            let rating = item.rating;
             let newRating = parseFloat(rating.toFixed(1));
-            const discountPercentage = product.discountPercentage || 0;
+            const discountPercentage = item.discountPercentage || 0;
             const discountPrice = (
-              parseFloat(product.price) *
+              parseFloat(item.price) *
               (1 - discountPercentage / 100) *
               10000
             )
               .toFixed(0)
               .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            const formattedPrice = (parseFloat(product.price) * 10000)
+            const formattedPrice = (parseFloat(item.price) * 10000)
               .toLocaleString("ru-RU")
               .replace(",", " ");
 
             return (
-              <div
-                key={product.id}
+              <NavLink
+                to={`/details/${item.id}`}
+                key={item.id}
                 className="mx-auto bg-white rounded-xl max-w-[232px] w-full cursor-pointer hover:shadow"
               >
                 <div className="overflow-hidden rounded-xl hover:rounded-t-xl hover:rounded-b-none relative">
                   <Like />
                   <img
-                    src={product.images[0]}
-                    alt={product.title}
+                    src={item.images[0]}
+                    alt={item.title}
                     className="w-full h-[310px] object-contain bg-[#EFEFEF] hover:transition-all hover:scale-105 hover:duration-300 hover:ease-in transition-all"
                   />
                 </div>
                 <div className="px-2 pb-2 pt-3">
-                  <p className="text-xs line-clamp-2">{product.description}</p>
+                  <p className="text-xs line-clamp-2">{item.description}</p>
                   <div className="flex items-center gap-1">
                     <img src={star1} alt="" width={14} />
                     <p className="text-gray-600 text-sm">
-                      {newRating} ({product.stock} ta izoh)
+                      {newRating} ({item.stock} ta izoh)
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
@@ -74,7 +76,7 @@ function Products() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </NavLink>
             );
           })}
         </div>
