@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
+import img1 from "../assets/images/image1.png";
+import img2 from "../assets/images/image2.png";
+import img3 from "../assets/images/image3.png";
+import img4 from "../assets/images/image4.png";
+import img5 from "../assets/images/image5.png";
+
 const Carousel = () => {
-  const slides = [
-    "https://images.uzum.uz/cv3eg7ei4n36ls3t0770/main_page_banner.jpg",
-    "https://images.uzum.uz/cug7q9tht56sc95cis1g/main_page_banner.jpg",
-    "https://images.uzum.uz/cv4o265pb7f9qcng1frg/main_page_banner.jpg",
-    "https://images.uzum.uz/cuuoplei4n36ls3rla6g/main_page_banner.jpg",
-    "https://images.uzum.uz/cuuljv3vgbkm5ehgnhcg/main_page_banner.jpg",
-  ];
+  const slides = [img1, img2, img3, img4, img5];
 
   const [current, setCurrent] = useState(0);
 

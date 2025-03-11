@@ -51,7 +51,7 @@ function Products() {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                    className="w-full h-[310px] object-contain bg-[#EFEFEF] hover:scale-110 transition-all"
+                    className="w-full h-[310px] object-contain bg-[#EFEFEF] hover:transition-all hover:scale-105 hover:duration-300 hover:ease-in transition-all"
                   />
                 </div>
                 <div className="px-2 pb-2 pt-3">
