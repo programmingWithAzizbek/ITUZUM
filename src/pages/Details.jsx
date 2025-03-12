@@ -1,38 +1,51 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../app/cardSlice.js";
-import { ToastContainer, toast } from "react-toastify";
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../app/cartSlice";
+import { addItem, removeItem } from "../app/selectedSlice";
+import { toast } from "react-toastify";
 import Products from "../components/Products.jsx";
+import { fetchProductById } from "../api";
 
 function Details() {
   let { id } = useParams();
   let [data, setData] = useState(null);
   let dispatch = useDispatch();
 
+  const selectedList = useSelector((store) => store.selected.selectedList);
+  const isSelected = selectedList.some((item) => item.id === +id);
+
   useEffect(() => {
     if (id) {
-      axios
-        .get(`https://dummyjson.com/products/${id}`)
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const getProduct = async () => {
+        try {
+          const product = await fetchProductById(id);
+          setData(product);
+        } catch (err) {
+          console.error("Mahsulotni yuklashda xatolik", err);
+        }
+      };
+      getProduct();
     }
   }, [id]);
 
-  function notify() {
+  function handleAddToCart() {
+    dispatch(addToCart(data));
     toast.success("Mahsulot savatga qo‘shildi");
+  }
+
+  function handleToggleSelected() {
+    if (isSelected) {
+      dispatch(removeItem({ id: data.id }));
+      toast.info("Mahsulot tanlanganlardan olib tashlandi");
+    } else {
+      dispatch(addItem(data));
+      toast.success("Mahsulot tanlanganlarga qo‘shildi");
+    }
   }
 
   return (
     <>
-      <Header />
       {data && (
         <div className="mx-auto container gap-5 flex w-[1200px]">
           <div className="w-[65%]">
@@ -43,16 +56,24 @@ function Details() {
                 className="w-[500px]"
                 alt={data.title}
               />
-              <button
-                onClick={() => {
-                  dispatch(addToCart(data));
-                  notify();
-                }}
-                className="w-3xs bg-[#7000FF] h-10 mt-40 rounded-md cursor-pointer text-white"
-              >
-                Savatga qoʻshish
-              </button>
-              <ToastContainer />
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  onClick={handleAddToCart}
+                  className="w-3xs bg-[#7000FF] h-10 rounded-md cursor-pointer text-white"
+                >
+                  Savatga qoʻshish
+                </button>
+                <button
+                  onClick={handleToggleSelected}
+                  className={`w-3xs h-10 rounded-md cursor-pointer border ${
+                    isSelected ? "bg-red-500 text-white" : "bg-gray-200"
+                  }`}
+                >
+                  {isSelected
+                    ? "Tanlanganlardan olib tashlash"
+                    : "Tanlanganlarga qo‘shish"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -60,7 +81,6 @@ function Details() {
       <div className="max-w-7xl w-full mx-auto">
         <Products />
       </div>
-      <Footer />
     </>
   );
 }

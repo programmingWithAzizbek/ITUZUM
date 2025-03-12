@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header.jsx";
 import Carousel from "../components/Carousel.jsx";
 import Products from "../components/Products.jsx";
 import { NavLink } from "react-router-dom";
@@ -7,12 +6,10 @@ import image1 from "../assets/images/carouselBottom-1.png";
 import image2 from "../assets/images/carouselBottom-2.png";
 import image3 from "../assets/images/carouselBottom-3.png";
 import image4 from "../assets/images/carouselBottom-4.png";
-import Footer from "../components/Footer.jsx";
 
 function Home() {
   return (
     <>
-      <Header />
       <main>
         <div className="max-w-7xl mx-auto px-5 rounded-xl">
           <div>
@@ -63,21 +60,8 @@ function Home() {
           <div>
             <Products />
           </div>
-          <div className="mt-10">
-            <Carousel />
-          </div>
-          <div>
-            <Products />
-          </div>
-          <div className="mt-10">
-            <Carousel />
-          </div>
-          <div>
-            <Products />
-          </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

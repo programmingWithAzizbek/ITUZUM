@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cardReducer from "./cardSlice";
+import productReducer from "./productSlice";
+import cartReducer from "./cartSlice";
 import selectedReducer from "./selectedSlice";
 
 const store = configureStore({
   reducer: {
-    cart: cardReducer,
+    products: productReducer,
+    cart: cartReducer,
     selected: selectedReducer,
   },
 });

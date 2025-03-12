@@ -61,6 +61,12 @@
   --font-inter: "Inter", "sans-serif";
 }
 
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+}
+
 .catalog-icon {
   position: relative;
   width: 24px;

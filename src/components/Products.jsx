@@ -1,30 +1,75 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import cartPlus from "../assets/images/cartPlus.svg";
 import star1 from "../assets/images/star1.svg";
-import Like from "./Like";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addItem, removeItem } from "../app/selectedSlice";
+import { addToCart } from "../app/cartSlice";
+import { fetchProducts } from "../api";
 
 function Products() {
+  const [isPending, setIsPending] = useState(false);
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(10);
+  const dispatch = useDispatch();
+  const selectedList = useSelector((store) => store.selected.selectedList);
 
   useEffect(() => {
-    axios
-      .get(`https://dummyjson.com/products`)
-      .then((response) => {
-        setData(response.data.products);
-      })
-      .catch((error) => console.log(error));
+    const getData = async () => {
+      setIsPending(true);
+      const products = await fetchProducts();
+      setData(products);
+      setIsPending(false);
+    };
+
+    getData();
   }, []);
 
   const loadMore = () => {
     setVisibleCount((prev) => prev + 10);
   };
 
-  function notify() {
-    toast.success("Mahsulot savatga qo‘shildi");
+  const handleLikeToggle = (product, event) => {
+    event.preventDefault();
+    const isLiked = selectedList.some((item) => item.id === product.id);
+
+    if (isLiked) {
+      dispatch(removeItem({ id: product.id }));
+      toast.info("Mahsulot saralanganlardan olib tashlandi", {
+        autoClose: 1500,
+        toastId: `remove-${product.id}`,
+      });
+    } else {
+      dispatch(addItem(product));
+      toast.success("Mahsulot saralanganlarga saqlandi", {
+        autoClose: 1500,
+        toastId: `add-${product.id}`,
+      });
+    }
+  };
+
+  const handleAddToCart = (product, event) => {
+    event.preventDefault();
+    dispatch(addToCart(product));
+    toast.success("Mahsulot savatga qo‘shildi", { autoClose: 1500 });
+  };
+
+  if (isPending) {
+    return (
+      <div className="grid grid-cols-5 gap-5">
+        {Array.from({ length: 10 }, (_, index) => {
+          return (
+            <div key={index} className="flex w-52 flex-col gap-4">
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-4 w-28"></div>
+              <div className="skeleton h-4 w-full"></div>
+              <div className="skeleton h-4 w-full"></div>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 
   return (
@@ -32,7 +77,7 @@ function Products() {
       <div className="mt-12">
         <h3 className="text-3xl font-bold mb-5">Tavsiya etamiz</h3>
         <div className="grid grid-cols-5 gap-5">
-          {data.slice(0, visibleCount).map((item, index) => {
+          {data.slice(0, visibleCount).map((item) => {
             let rating = item.rating;
             let newRating = parseFloat(rating.toFixed(1));
             const discountPercentage = item.discountPercentage || 0;
@@ -54,7 +99,31 @@ function Products() {
                 className="mx-auto bg-white rounded-xl max-w-[232px] w-full cursor-pointer hover:shadow"
               >
                 <div className="overflow-hidden rounded-xl hover:rounded-t-xl hover:rounded-b-none relative">
-                  <Like />
+                  <button
+                    className="absolute z-10 right-3 top-2.5 cursor-pointer active:animate-ping"
+                    onClick={(e) => {
+                      handleLikeToggle(item, e);
+                    }}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="select-none"
+                    >
+                      <path
+                        d="M5.95 2C8.51792 2 10 4.15234 10 4.15234C10 4.15234 11.485 2 14.05 2C16.705 2 19 4.07 19 6.95C19 11.1805 12.5604 15.6197 10.3651 17.5603C10.1582 17.7432 9.84179 17.7432 9.63488 17.5603C7.44056 15.6209 1 11.1803 1 6.95C1 4.07 3.295 2 5.95 2Z"
+                        fill={
+                          selectedList.some((liked) => liked.id === item.id)
+                            ? "#7F4DFF"
+                            : "#FFFFFF"
+                        }
+                        fillOpacity="0.8"
+                      />
+                    </svg>
+                  </button>
                   <img
                     src={item.images[0]}
                     alt={item.title}
@@ -77,13 +146,9 @@ function Products() {
                       <p className="text-lg font-bold">{discountPrice}</p>
                     </div>
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        notify();
-                      }}
+                      onClick={(e) => handleAddToCart(item, e)}
                       className="border mt-4 rounded-full flex justify-center items-center w-8 h-8 text-[#BDBEC4] transition-all hover:bg-[#dee0e5] cursor-pointer"
                     >
-                      <ToastContainer />
                       <img src={cartPlus} alt="Savatchaga qo‘shish" />
                     </button>
                   </div>

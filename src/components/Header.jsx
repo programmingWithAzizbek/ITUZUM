@@ -5,10 +5,17 @@ import uzFlag from "../assets/images/uzb.svg";
 import ruFlag from "../assets/images/rus.svg";
 import weeklyProducts from "../assets/images/weeklyProducts.png";
 import weeklyDay from "../assets/images/weeklyDay.png";
+import { ToastContainer } from "react-toastify";
 
 function Header() {
   return (
     <>
+      <ToastContainer
+        autoClose={1500}
+        closeOnClick
+        position="top-right"
+        pauseOnHover
+      />
       <header>
         <div className="w-full bg-[#F0F2F5]">
           <div className="max-w-7xl px-5 mx-auto flex items-center justify-between text-sm">
