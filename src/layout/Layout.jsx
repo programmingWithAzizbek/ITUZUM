@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const Layout = () => {
+const Layout = ({ searchQuery, setSearchQuery }) => {
   return (
     <>
-      <Header />
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <main className="container mx-auto py-5">
         <Outlet />
       </main>

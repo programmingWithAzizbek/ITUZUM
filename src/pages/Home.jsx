@@ -7,7 +7,7 @@ import image2 from "../assets/images/carouselBottom-2.png";
 import image3 from "../assets/images/carouselBottom-3.png";
 import image4 from "../assets/images/carouselBottom-4.png";
 
-function Home() {
+const Home = ({ searchQuery }) => {
   return (
     <>
       <main>
@@ -58,12 +58,12 @@ function Home() {
             </div>
           </div>
           <div>
-            <Products />
+            <Products searchQuery={searchQuery} />
           </div>
         </div>
       </main>
     </>
   );
-}
+};
 
 export default Home;

@@ -47,7 +47,7 @@ function Details() {
   return (
     <>
       {data && (
-        <div className="mx-auto container gap-5 flex w-[1200px]">
+        <div className="max-w-7xl mx-auto px-5 flex gap-5">
           <div className="w-[65%]">
             <h2 className="text-xl font-semibold">{data.title}</h2>
             <div className="flex gap-10">
@@ -78,7 +78,7 @@ function Details() {
           </div>
         </div>
       )}
-      <div className="max-w-7xl w-full mx-auto">
+      <div className="max-w-7xl w-full mx-auto px-5">
         <Products />
       </div>
     </>

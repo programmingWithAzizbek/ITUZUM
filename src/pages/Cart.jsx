@@ -4,7 +4,7 @@ import { removeFromCart, clearCart } from "../app/cartSlice";
 import { toast } from "react-toastify";
 import Products from "../components/Products";
 
-function Cart() {
+const Cart = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -64,7 +64,7 @@ function Cart() {
     .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
   return (
-    <div className="max-w-4xl mx-auto px-5 py-8">
+    <div className="max-w-7xl mx-auto px-5">
       <h2 className="text-3xl font-bold mb-5">Savat</h2>
 
       {cartItems.length === 0 ? (
@@ -170,9 +170,9 @@ function Cart() {
           </button>
         </>
       )}
-      <Products />
+      <Products searchQuery={searchQuery} />
     </div>
   );
-}
+};
 
 export default Cart;

@@ -6,8 +6,9 @@ import ruFlag from "../assets/images/rus.svg";
 import weeklyProducts from "../assets/images/weeklyProducts.png";
 import weeklyDay from "../assets/images/weeklyDay.png";
 import { ToastContainer } from "react-toastify";
+import { useState } from "react";
 
-function Header() {
+const Header = ({ searchQuery, setSearchQuery }) => {
   return (
     <>
       <ToastContainer
@@ -178,6 +179,8 @@ function Header() {
                 <input
                   type="text"
                   placeholder="Mahsulotlar va turkumlar izlash"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full h-full pl-4 py-2 rounded-l pr-28 text-sm font-normal placeholder:text-sm placeholder:font-normal"
                 />
                 <button className="absolute bg-[#EDEFF2] rounded-r w-[79px] h-full right-0 z-10 cursor-pointer flex justify-center items-center">
@@ -369,6 +372,6 @@ function Header() {
       </header>
     </>
   );
-}
+};
 
 export default Header;

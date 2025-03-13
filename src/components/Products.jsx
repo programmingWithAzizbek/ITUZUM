@@ -8,9 +8,10 @@ import { addItem, removeItem } from "../app/selectedSlice";
 import { addToCart } from "../app/cartSlice";
 import { fetchProducts } from "../api";
 
-function Products() {
+const Products = ({ searchQuery }) => {
   const [isPending, setIsPending] = useState(false);
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(10);
   const dispatch = useDispatch();
   const selectedList = useSelector((store) => store.selected.selectedList);
@@ -20,11 +21,23 @@ function Products() {
       setIsPending(true);
       const products = await fetchProducts();
       setData(products);
+      setFilteredData(products);
       setIsPending(false);
     };
 
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredData(data);
+    } else {
+      const filtered = data.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchQuery, data]);
 
   const loadMore = () => {
     setVisibleCount((prev) => prev + 10);
@@ -38,14 +51,10 @@ function Products() {
       dispatch(removeItem({ id: product.id }));
       toast.info("Mahsulot saralanganlardan olib tashlandi", {
         autoClose: 1500,
-        toastId: `remove-${product.id}`,
       });
     } else {
       dispatch(addItem(product));
-      toast.success("Mahsulot saralanganlarga saqlandi", {
-        autoClose: 1500,
-        toastId: `add-${product.id}`,
-      });
+      toast.success("Mahsulot saralanganlarga saqlandi", { autoClose: 1500 });
     }
   };
 
@@ -58,16 +67,14 @@ function Products() {
   if (isPending) {
     return (
       <div className="grid grid-cols-5 gap-5">
-        {Array.from({ length: 10 }, (_, index) => {
-          return (
-            <div key={index} className="flex w-52 flex-col gap-4">
-              <div className="skeleton h-32 w-full"></div>
-              <div className="skeleton h-4 w-28"></div>
-              <div className="skeleton h-4 w-full"></div>
-              <div className="skeleton h-4 w-full"></div>
-            </div>
-          );
-        })}
+        {Array.from({ length: 10 }, (_, index) => (
+          <div key={index} className="flex w-52 flex-col gap-4">
+            <div className="skeleton h-32 w-full"></div>
+            <div className="skeleton h-4 w-28"></div>
+            <div className="skeleton h-4 w-full"></div>
+            <div className="skeleton h-4 w-full"></div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -77,7 +84,7 @@ function Products() {
       <div className="mt-12">
         <h3 className="text-3xl font-bold mb-5">Tavsiya etamiz</h3>
         <div className="grid grid-cols-5 gap-5">
-          {data.slice(0, visibleCount).map((item) => {
+          {filteredData.slice(0, visibleCount).map((item) => {
             let rating = item.rating;
             let newRating = parseFloat(rating.toFixed(1));
             const discountPercentage = item.discountPercentage || 0;
@@ -157,7 +164,7 @@ function Products() {
             );
           })}
         </div>
-        {visibleCount < data.length && (
+        {visibleCount < filteredData.length && (
           <div className="flex justify-center mt-5">
             <button
               onClick={loadMore}
@@ -170,6 +177,6 @@ function Products() {
       </div>
     </>
   );
-}
+};
 
 export default Products;
